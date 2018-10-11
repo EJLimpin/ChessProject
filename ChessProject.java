@@ -237,7 +237,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			demonstration purposes the Pawn here turns into a Queen.
 		*/
 
-		// Code to make the knight (black and white) move.
+		// Code to make the knight (black and white) move
 		if(pieceName.contains("Knight")){
 			if(((landingX < 0)||(landingX > 7))||((landingY < 0)||(landingY > 7))){
 				validMove = false;
