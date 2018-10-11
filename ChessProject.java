@@ -682,19 +682,20 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 						validMove = true;
 					 }
 				} 
-				//When the pawn reaches the other end of the board, it will mark progression as true (anc become a queen)
+				//When the pawn reaches the other end of the board, it will mark progression as true (and become a queen)
 				else if((yMovement==1)&&(startY > landingY)&&(xMovement==1)){
 					if(piecePresent(e.getX(), e.getY())){
 						if(checkBlackOponent(e.getX(), e.getY())){
 							validMove = true;
-							if(landingY == 0){
-								progression = true;
-							}
 						}
 						else{
 							validMove = false;
 						}
 					}
+				}
+				//Code to allow the pawn to become a queen regardless if it captures a piece or not
+				if(landingY == 0){
+					progression = true;
 				}
 			}
 		}
@@ -735,7 +736,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			//Code for capturing an enemy piece
 			else{
 				int newY = e.getY()/75;
-				int newX = e.getX()/75;				
+				int newX = e.getX()/75;
 				if((startX-1 >=0)||(startX +1 <=7)&&(startY-1 >=0)||(startY +1 <=7))
 				{
 					//Limits the pawn's movement 
@@ -799,6 +800,12 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 					pieces = new JLabel(new ImageIcon("BlackQueen.png"));
 					parent = (JPanel)chessBoard.getComponent(location);
 					parent.add(pieces);
+				}
+				else{
+					Container parent = (Container)c;
+	            	pieces = new JLabel( new ImageIcon("BlackQueen.png") );
+					parent = (JPanel)chessBoard.getComponent(location);
+			    	parent.add(pieces);	            	
 				}
 			}
 			else if(success){
