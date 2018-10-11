@@ -727,8 +727,14 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 					validMove = false;					
 				}
 				//Code that allows the pawn to capture a piece on its first move
-				if((piecePresent(e.getX(), (e.getY())))&&(piecePresent(e.getX(), e.getY()-75))){
-					if(checkWhiteOponent(e.getX(), e.getY())){
+				if((piecePresent(e.getX(), (e.getY())))&&(piecePresent(e.getX(), e.getY()*75))){
+					if(checkBlackOponent(e.getX(), e.getY())){
+						if((xMovement == 1)&&(yMovement == 0)){
+							validMove = false;
+						}
+					}
+					//Stops pawn from moving to the x-axis on its first turn (if there is an enemy piece present)
+					else if((xMovement == 1)&&(yMovement == 1)){
 						validMove = true;
 					}
 				}
