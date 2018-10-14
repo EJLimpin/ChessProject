@@ -164,6 +164,22 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		}		
 		return oponent;
 	}
+
+	//Method used to check for presence of a king
+	private String kingPresent(int pieceAtX, int pieceAtY){
+		Component c = chessBoard.findComponentAt(pieceAtX, pieceAtY);
+		if(c instanceof JPanel){
+			return "nomove";
+		}
+		else if(c instanceof JLabel){
+			JLabel awaitingPiece = (JLabel) c;
+			String tmp1 = awaitingPiece.getIcon().toString();
+			return tmp1;
+		}
+		else{
+			return "nomove";
+		}
+	}
  
 	/*
 		This method is called when we press the Mouse. So we need to find out what piece we have 
@@ -613,40 +629,51 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 }
 
 		else if(pieceName.contains("King")){
-			if(((landingX < 0)||(landingX > 7))||((landingY < 0)||(landingY > 7))){
+			if(((((startX < 0) || (startX > 7)) || ((startY < 0) || (startY > 7))))){
 				validMove = false;
 			}
-			else{
-				if(((landingX == startX+1)&&(landingY == startY+1))||((landingX == startX-1)&&(landingY == startY+1))||
-				((landingX == startX+1)&&(landingY == startY-1))||((landingX == startX-1)&&(landingY == startY-1))||
-				((landingX == startX+0)&&(landingY == startY+1))||((landingX == startX+0)&&(landingY == startY-1))||
-				((landingX == startX+1)&&(landingY == startY+0))||((landingX == startX-1)&&(landingY == startY+0))){
-					if(piecePresent(e.getX(), e.getY())){
-						if(pieceName.contains("White")){
-							if(checkWhiteOponent(e.getX(), e.getY())){
-								validMove = true;
+			else if(xMovement == 0 && yMovement == 0){
+					validMove = false;
+				}
+				//Checks for the presence of another king by checking all adjacent squares
+				else if
+				((kingPresent((e.getX() + 75), e.getY()).contains("King")) ||
+				(kingPresent((e.getX() - 75), e.getY()).contains("King")) ||
+				(kingPresent((e.getX()), (e.getY() +75)).contains("King")) ||
+				(kingPresent((e.getX()), (e.getY() -75)).contains("King")) ||
+				(kingPresent((e.getX() +75), (e.getY() +75)).contains("King")) ||
+				(kingPresent((e.getX() +75), (e.getY() -75)).contains("King")) ||
+				(kingPresent((e.getX() -75), (e.getY() +75)).contains("King")) ||
+				(kingPresent((e.getX() -75), (e.getY() -75)).contains("King"))){
+					validMove = false;
+				}
+				//Instructs the legal moves of a king
+				else{
+					if((xMovement == 1)&&(yMovement == 0)||(xMovement == 0)&&(yMovement == 1)
+					||(xMovement == 1)&&(yMovement == 1)){
+						if(piecePresent(e.getX(), e.getY())){
+							if(pieceName.contains("White")){
+								if(checkWhiteOponent(e.getX(), e.getY())){
+									validMove = true;
+								}
 							}
 							else{
-								validMove = false;
+								if(checkBlackOponent(e.getX(), e.getY())){
+									validMove = true;
+								}
+								else{
+									validMove = false;
+								}
 							}
 						}
 						else{
-							if(checkBlackOponent(e.getX(), e.getY())){
-								validMove = true;
-							}
-							else{
-								validMove = false;
-							}
+							validMove = true;
 						}
 					}
 					else{
-						validMove = true;
+						validMove = false;
 					}
 				}
-				else{
-					validMove = false;
-				}
-			}
 		}
 
 		else if(pieceName.equals("BlackPawn")){
